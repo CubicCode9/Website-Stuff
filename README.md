@@ -12,3 +12,16 @@ Next:
     Removing account hard-coding
     Storing accounts in accounts.json or .txt for security and persistent mutability
     Adding "Create account" option to login page
+
+UPLOAD 2:
+    13/9/2026 ~21:00
+
+    Added secure account information storage, access, and editing, using the cryptography library and a .bin storage structure
+
+    Accounts not in the default accounts list will now remain after restarting the program
+
+NEXT:
+    ACCOUNT MANAGEMENT UPGRADE (CONTINUED)
+
+    Adding "Create account" option to login page
+    Admins can edit or delete non-Admin accounts in their group (non-Admin accounts choose a master Admin account from available to manage their account)

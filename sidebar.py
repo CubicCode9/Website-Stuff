@@ -1,5 +1,5 @@
 import streamlit as st
-import user_management
+import user_management, users
 
 
 def sidebar(session_state):
@@ -7,12 +7,7 @@ def sidebar(session_state):
     roleRank = {"Guest": 0, "Member": 1, "Admin": 2}
 
     if "names" not in session_state or not isinstance(session_state["names"], dict):
-        session_state["names"] = {
-            "setup123": ["Pa55w0rd", "Admin"],
-            "CubicCode9": ["OptionalHomework", "Member"],
-            "GuestUser": ["", "Guest"],
-        }
-
+        session_state["names"] = users.load()
     if "logged" not in session_state:
         session_state["logged"] = False
 

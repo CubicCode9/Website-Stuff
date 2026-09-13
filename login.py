@@ -1,13 +1,11 @@
+import users
 import streamlit as st
+
 
 def login(session_state):
     st.set_page_config(page_title="Horizon XS - Login")
     if "names" not in session_state or not isinstance(session_state["names"], dict):
-        session_state["names"] = {
-            "setup123": ["Pa55w0rd", "Admin"],
-            "CubicCode9": ["OptionalHomework", "Member"],
-            "GuestUser": ["", "Guest"],
-        }
+        session_state["names"] = users.load()
 
     if "logged" not in session_state:
         session_state["logged"] = False
