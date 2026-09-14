@@ -32,3 +32,9 @@ UPLOAD 3:
     Added "Create account" functionality to login page
     Admins can view non-Admin account details and delete non-Admin and non-default accounts
     Accounts now sorted by role in Admin User Management page
+
+NEXT:
+    FUNCTIONALITY UPGRADE FOR ALL ROLES
+
+    Adding a Dashboard page
+    Adding "About" and "Help" pages
