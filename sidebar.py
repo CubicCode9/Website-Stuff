@@ -1,5 +1,5 @@
 import streamlit as st
-import user_management, users
+import user_management, users, dashboard
 
 
 def sidebar(session_state):
@@ -49,22 +49,24 @@ def sidebar(session_state):
             "View As",
             allowedRoles,
             index=allowedRoles.index(selectedRole),
-            key="selectedRole",
+            key="selectedRoleSelect",
         )
+        session_state["selectedRole"] = selectedRole
         st.write(f"User role: {userType}")
         st.write(f"Viewing as: {selectedRole}")
 
     with st.sidebar.expander("Navigation"):
         if selectedRole == "Admin":
-            st.segmented_control("Admin Navigation", ["Dashboard", "Profile", "Reports", "Options", "Help", "User Management", "Settings"], key="nav")
+            session_state["nav"] = st.segmented_control("Admin Navigation", ["Dashboard", "Profile", "Reports", "Options", "Help", "User Management", "Settings"], key="adminNavSelect")
         elif selectedRole == "Member":
-            st.segmented_control("Member Navigation", ["Dashboard", "Profile", "Settings", "Help", "Upgrade", "About"], key="nav")
+            session_state["nav"] = st.segmented_control("Member Navigation", ["Dashboard", "Profile", "Settings", "Help", "Upgrade", "About"], key="memberNavSelect")
         elif selectedRole == "Guest":
-            st.segmented_control("Guest Navigation", ["Dashboard", "Help", "Upgrade", "About"], key="nav")
+            session_state["nav"] = st.segmented_control("Guest Navigation", ["Dashboard", "Help", "Upgrade", "About"], key="guestNavSelect")
 
     if session_state["nav"] != session_state["navCheck"]:
         session_state["navCheck"] = session_state["nav"]
     if session_state["nav"] == "User Management": user_management.management(session_state)
+    if session_state["nav"] == "Dashboard": dashboard.run(session_state)
 
     if st.sidebar.button("Logout"):
         st.session_state.pop("logged", None)

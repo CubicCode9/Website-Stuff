@@ -19,14 +19,20 @@ def login(session_state):
     if "selectedRole" not in session_state:
         session_state["selectedRole"] = ""
 
+    if session_state.get("creating", False) :
+        users.create(session_state)
+        return
+
     st.title("Horizon XS")
     st.write("Please log in to access the application.")
     st.write("To view the application as a guest, use GuestUser as the username and leave the password blank.")
 
     with st.form("loginForm"):
-        session_state["userName"] = st.text_input("Username", value="", max_chars=20, key="name")
-        password = st.text_input("Password", value="", max_chars=20, type="password", key="password")
+        session_state["userName"] = st.text_input("Username", value="", max_chars=20, key="userNameInput")
+        password = st.text_input("Password", value="", max_chars=20, type="password", key="passwordInput")
         submitted = st.form_submit_button("Login")
+
+    new = st.button("New User? Click here to register.")
 
     if submitted:
         userName = session_state["userName"]
@@ -39,3 +45,8 @@ def login(session_state):
         else:
             session_state["logged"] = False
             st.warning("Invalid username or password. Please try again.")
+
+    if new:
+        st.session_state["creating"] = True
+        users.create(session_state)
+        st.rerun()

@@ -24,4 +24,11 @@ NEXT:
     ACCOUNT MANAGEMENT UPGRADE (CONTINUED)
 
     Adding "Create account" option to login page
-    Admins can edit or delete non-Admin accounts in their group (non-Admin accounts choose a master Admin account from available to manage their account)
+    Admins can edit or delete non-Admin and non-default accounts (default accounts to be removed in final version for security)
+
+UPLOAD 3:
+    14/9/1016 ~14:00
+
+    Added "Create account" functionality to login page
+    Admins can view non-Admin account details and delete non-Admin and non-default accounts
+    Accounts now sorted by role in Admin User Management page

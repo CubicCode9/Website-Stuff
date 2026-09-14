@@ -9,6 +9,9 @@ if "names" not in st.session_state or not isinstance(st.session_state["names"], 
 if "logged" not in st.session_state:
     st.session_state["logged"] = False
 
+if "creating" not in st.session_state:
+    st.session_state["creating"] = False
+
 if "userName" not in st.session_state:
     st.session_state["userName"] = ""
 
@@ -20,5 +23,7 @@ if "selectedRole" not in st.session_state:
 
 if st.session_state["logged"]:
     sidebar.sidebar(st.session_state)
+elif st.session_state["creating"]:
+    users.create(st.session_state)
 else:
     login.login(st.session_state)

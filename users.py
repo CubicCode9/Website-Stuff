@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from cryptography.fernet import Fernet, InvalidToken
+import streamlit as st
 
 KEYPATH = Path.home() / ".config" / "horizonxs" / "key.bin"
 DATAPATH = Path("userData.bin")
@@ -60,6 +61,48 @@ def add(username, password, role):
     with DATAPATH.open("wb") as f:
         f.write(encrypted)
 
+
+def delete(username):
+    accounts = load()
+    if username not in accounts:
+        return False
+
+    del accounts[username]
+    key = getKey()
+    cipher = Fernet(key)
+    encrypted = cipher.encrypt(json.dumps(accounts).encode())
+    with DATAPATH.open("wb") as f:
+        f.write(encrypted)
+    return True
+
+
+def create(session_state):
+    if "creating" not in session_state:
+        session_state["creating"] = True
+    st.title("Horizon XS - New User")
+    st.write("Please fill in the details below to create a new user account.")
+
+    with st.form("createUserForm"):
+        new_username = st.text_input("New Username", value="", max_chars=20, key="newUserNameInput")
+        new_password = st.text_input("New Password", value="", max_chars=20, type="password", key="newUserPasswordInput")
+        role_options = ["Admin", "Member", "Guest"]
+        new_role = st.selectbox("Select Role", role_options, key="newUserRoleSelect")
+        submitted = st.form_submit_button("Create Account")
+
+    cancel = st.button("Have an account? Login here.")
+
+    if submitted:
+        if new_username in session_state["names"]:
+            st.warning("Username already exists. Please choose a different username.")
+        else:
+            st.session_state["creating"] = False 
+            add(new_username, new_password, new_role)
+            session_state["names"] = load()
+            st.success(f"Account for '{new_username}' created successfully! You can now log in.")
+
+    if cancel:
+        st.session_state["creating"] = False
+        st.rerun()
 
 if __name__ == "__main__":
     print(load())
